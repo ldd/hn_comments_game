@@ -1,0 +1,30 @@
+<%= if is_nil(@color) or @answered_questions >= 5 do %>
+  <%= live_component @socket, HnCommentsGameWeb.CommentLive.TeamComponent,
+      id: "team", color: @color, correct_questions: @correct_questions %>
+  <% else %>
+  <div id="hn_comments">
+    <div id="comment-<%= @hn_comment.id %>">
+      <div style="background: #F6F6EF; padding: 1.5rem; margin-bottom: 1.2rem; overflow-x: scroll">
+        <%= raw(@hn_comment.text) %>
+      </div>
+      <div style="display:flex; flex-direction:column">
+      <%= for post <- @hn_posts do %>
+      <div>
+          <button
+            class="button button-outline"
+            style="white-space: unset; width: 100%; height: unset; text-transform: unset; text-align: start; font-size: 1.5rem"
+            type="button"
+            phx-click="made_guess"
+            phx-value-post_id="<%= post.id %>"
+          >
+            <%= post.title %>
+          </button>
+      </div>
+      <% end %>
+      </div>
+    </div>
+  <%= if @answered_questions > 0 do %>
+  <p><%= @correct_questions %> / <%= @answered_questions %></p>
+  </div>
+  <% end %>
+<% end %>
