@@ -1,4 +1,4 @@
-<%= if is_nil(@color) do %>
+<%= if is_nil(@team) do %>
   <h1>Pick a Team Color</h1>
 <% else %>
   <h1>Team Scores</h1>
@@ -7,7 +7,7 @@
 
 <div id="teams" style="display: flex; flex-wrap:no-wrap">
   <%= for team <- @teams do %>
-  <div style="display: flex; flex-direction: column; align-items: center">
+  <div style="display: flex; flex-direction: column; align-items: center; margin: 1.5rem;">
     <button
       id="team-<%= team.id %>"
       type="button"
@@ -20,6 +20,12 @@
     </button>
     <%= if team.answered_questions > 0 do %>
       <p><%= team.correct_questions %> / <%= team.answered_questions %></p>
+      <p>
+        <%= team.time_taken
+        |> Timex.Duration.from_milliseconds
+        |> Timex.Format.Duration.Formatter.format(:humanized) %>
+      </p>
+
     <% else %>
       <p>--</p>
     <% end %>

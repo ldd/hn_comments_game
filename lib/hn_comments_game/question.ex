@@ -91,8 +91,10 @@ defmodule HnCommentsGame.Question do
   """
   def get_post!(id), do: Repo.get!(Post, id)
 
-  def update_score(color, score \\ 1) do
+  def update_score(%Team{color: color, correct_questions: correct, time_taken: time_taken}) do
     from(t in Team, where: t.color == ^color, select: t)
-    |> Repo.update_all(inc: [correct_questions: score, answered_questions: 5])
+    |> Repo.update_all(
+      inc: [answered_questions: 5, correct_questions: correct, time_taken: time_taken]
+    )
   end
 end

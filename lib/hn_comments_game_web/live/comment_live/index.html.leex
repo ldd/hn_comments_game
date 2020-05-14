@@ -1,11 +1,11 @@
-<header style="border-color: <%= @color %>;">
+<header style="border-color: <%= if @team, do: @team.color, else: "grey" %>;">
 <h2>HN Matching Game</h2>
 <h4>Match HN comments to their parent post</h4>
 </header>
 
-<%= if is_nil(@color) or @answered_questions >= 5 do %>
+<%= if is_nil(@team) or @team.answered_questions >= 5 do %>
   <%= live_component @socket, HnCommentsGameWeb.CommentLive.TeamComponent,
-      id: "team", color: @color, correct_questions: @correct_questions %>
+      id: "team", team: @team %>
   <% else %>
   <div id="hn_comments">
     <div id="comment-<%= @hn_comment.id %>">
@@ -28,12 +28,12 @@
       <% end %>
       </div>
     </div>
-  <%= if @answered_questions > 0 do %>
-  <p><%= @correct_questions %> / <%= @answered_questions %></p>
+  <%= if @team.answered_questions > 0 do %>
+  <p><%= @team.correct_questions %> / <%= @team.answered_questions %></p>
   </div>
   <% end %>
-  <%= if @time_left > 0 do %>
-  <p><%= @time_left
+  <%= if @team.time_taken > 0 do %>
+  <p><%= @team.time_taken
   |> Timex.Duration.from_milliseconds
   |> Timex.Format.Duration.Formatter.format(:humanized) %></p>
   <% end %>
