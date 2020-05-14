@@ -14,9 +14,10 @@ defmodule HnCommentsGame.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: HnCommentsGame.PubSub},
       # Start the Endpoint (http/https)
-      HnCommentsGameWeb.Endpoint
+      HnCommentsGameWeb.Endpoint,
       # Start a worker by calling: HnCommentsGame.Worker.start_link(arg)
       # {HnCommentsGame.Worker, arg}
+      HnCommentsGame.Scheduler
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
