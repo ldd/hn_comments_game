@@ -18,13 +18,20 @@ sudo apt install nodejs -y
 # install postgres
 sudo apt install postgresql -y
 
+# cleanup
+rm erlang-solutions_2.0_all.deb
+rm nodesource_setup.sh
+
 # project setup
 cd hn_comments_game
 cd assets && npm install && cd ..
 mix deps.get
 sudo -u postgres ./scripts/reset_database.sh
-./scripts/deploy.sh
+mix ecto.create
+mix ecto.migrate
 
+# project deployment
+./scripts/deploy.sh
 # https://elixirforum.com/t/whats-the-best-way-to-serve-restricted-ports-e-g-80-443-with-phoenix/2841
 sudo setcap 'cap_net_bind_service=+ep' /usr/lib/erlang/erts-10.7.1/bin/beam.smp
 sudo setcap 'cap_net_bind_service=+ep' _build/prod/rel/hn_comments_game/erts*/bin/beam.smp
