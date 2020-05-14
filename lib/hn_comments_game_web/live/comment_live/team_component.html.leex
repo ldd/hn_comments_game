@@ -18,8 +18,10 @@
       filter: saturate(1.4) opacity(0.7); border-radius: unset; border: unset;
       background-color: <%= team.color %>">
     </button>
-    <%= if team.score > -1 do %>
-    <p><%= team.score %> / <%= team.score %></p>
+    <%= if team.answered_questions > 0 do %>
+      <p><%= team.correct_questions %> / <%= team.answered_questions %></p>
+    <% else %>
+      <p>--</p>
     <% end %>
   </div>
   <% end %>

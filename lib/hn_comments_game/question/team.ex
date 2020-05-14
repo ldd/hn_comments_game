@@ -4,7 +4,8 @@ defmodule HnCommentsGame.Question.Team do
 
   schema "teams" do
     field :color, :string
-    field :score, :integer, default: 0
+    field :correct_questions, :integer, default: 0
+    field :answered_questions, :integer, default: 0
 
     timestamps()
   end
