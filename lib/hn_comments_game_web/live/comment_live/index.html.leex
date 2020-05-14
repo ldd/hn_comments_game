@@ -32,4 +32,9 @@
   <p><%= @correct_questions %> / <%= @answered_questions %></p>
   </div>
   <% end %>
+  <%= if @time_left > 0 do %>
+  <p><%= @time_left
+  |> Timex.Duration.from_milliseconds
+  |> Timex.Format.Duration.Formatter.format(:humanized) %></p>
+  <% end %>
 <% end %>

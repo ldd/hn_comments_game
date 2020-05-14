@@ -1,7 +1,8 @@
 defmodule HnCommentsGameWeb.CommentLive.Index do
-  use HnCommentsGameWeb, :live_view
 
+  use HnCommentsGameWeb, :live_view
   alias HnCommentsGame.Question
+  @interval 1000
 
   @impl true
   def mount(_params, _session, socket) do
@@ -10,9 +11,14 @@ defmodule HnCommentsGameWeb.CommentLive.Index do
 
     {:ok,
      socket
-     |> assign(color: nil)
+     |> assign(color: nil )
      |> assign(hn_comment: hn_comment, hn_posts: hn_posts)
      |> assign(correct_questions: 0, answered_questions: 0)}
+  end
+
+  @impl true
+  def handle_info(:update, socket ) do
+  {:noreply, socket |> assign(time_left: socket.assigns.time_left + @interval)}
   end
 
   @impl true
@@ -34,7 +40,8 @@ defmodule HnCommentsGameWeb.CommentLive.Index do
   end
 
   def handle_event("pick_team", %{"color" => color}, socket) do
-    {:noreply, socket |> assign(color: color)}
+    if connected?(socket), do: :timer.send_interval(@interval, self(), :update)
+    {:noreply, socket |> assign(color: color, time_left: 0)}
   end
 
   defp fetch_hn_comments do
