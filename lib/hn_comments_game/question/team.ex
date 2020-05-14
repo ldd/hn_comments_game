@@ -6,6 +6,7 @@ defmodule HnCommentsGame.Question.Team do
     field :color, :string
     field :correct_questions, :integer, default: 0
     field :answered_questions, :integer, default: 0
+    field :time_taken, :integer, default: 0
 
     timestamps()
   end
