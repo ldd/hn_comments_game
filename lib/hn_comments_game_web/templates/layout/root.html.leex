@@ -9,11 +9,7 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
-  <body>
-    <header style="border-color: red;">
-    <h2>HN Matching Game</h2>
-    <h4>Match HN Comments to their parent</h4>
-    </header>
+  <body style="width: calc(100vw - 2 rem); margin: 1rem">
     <%= @inner_content %>
   </body>
 </html>

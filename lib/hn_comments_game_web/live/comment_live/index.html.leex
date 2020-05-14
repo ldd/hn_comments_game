@@ -1,10 +1,15 @@
+<header style="border-color: <%= @color %>;">
+<h2>HN Matching Game</h2>
+<h4>Match HN comments to their parent post</h4>
+</header>
+
 <%= if is_nil(@color) or @answered_questions >= 5 do %>
   <%= live_component @socket, HnCommentsGameWeb.CommentLive.TeamComponent,
       id: "team", color: @color, correct_questions: @correct_questions %>
   <% else %>
   <div id="hn_comments">
     <div id="comment-<%= @hn_comment.id %>">
-      <div style="background: #F6F6EF; padding: 1.5rem; margin-bottom: 1.2rem; overflow-x: scroll">
+      <div style="background: #F6F6EF; padding: 1.5rem; margin-bottom: 1.2rem; overflow-x: auto">
         <%= raw(@hn_comment.text) %>
       </div>
       <div style="display:flex; flex-direction:column">
