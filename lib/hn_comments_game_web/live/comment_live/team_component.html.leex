@@ -5,30 +5,51 @@
   <h4>Next Update: ~ in 1 hour</h4>
 <% end %>
 
-<div id="teams" style="display: flex; flex-wrap:no-wrap">
+<div id="teams" style="display: flex; flex-wrap: wrap; justify-content: space-around">
   <%= for team <- @teams do %>
-  <div style="display: flex; flex-direction: column; align-items: center; margin: 1.5rem;">
-    <button
-      id="team-<%= team.id %>"
-      type="button"
-      phx-click="pick_team"
-      phx-value-color="<%= team.color %>"
-      style="
-      width: 64px; margin: 1.5rem; height: 64px;
-      filter: saturate(1.4) opacity(0.7); border-radius: unset; border: unset;
-      background-color: <%= team.color %>">
-    </button>
-    <%= if team.answered_questions > 0 do %>
-      <p><%= team.correct_questions %> / <%= team.answered_questions %></p>
-      <p>
-        <%= team.time_taken
-        |> Timex.Duration.from_milliseconds
-        |> Timex.Format.Duration.Formatter.format(:humanized) %>
-      </p>
-
-    <% else %>
-      <p>--</p>
-    <% end %>
-  </div>
+    <div style="display: flex; flex-direction: column; align-items: center; margin: 1.5rem;">
+      <div
+        id="team-<%= team.id %>"
+        type="button"
+        style="width: 64px; height: 64px; margin: 1.5rem; filter: saturate(1.4) opacity(0.7);
+              background-color: <%= team.color %>"
+      >
+      </div>
+      <%= if is_nil(@team) do %>
+        <button
+          class="button button-outline"
+          phx-click="pick_team"
+          phx-value-color="<%= team.color %>"
+          style="color: <%= team.color %>; border-color: <%= team.color %>"
+        >
+        Pick
+        </button>
+      <% else %>
+        <%= if team.answered_questions > 0 do %>
+          <table>
+            <tbody>
+              <tr>
+                <td>Score</td>
+                <td>
+                  <%= team.correct_questions / team.answered_questions * 100 |> trunc %> %
+                </td>
+              </tr>
+              <tr>
+                <td>Avg time</td>
+                <td>
+                  <%= team.time_taken / (10 *team.answered_questions)
+                    |> trunc
+                    |> Kernel./(100)
+                    |> to_string
+                  %> s
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        <% else %>
+          <p>--</p>
+        <% end %>
+      <% end %>
+    </div>
   <% end %>
 </div>
