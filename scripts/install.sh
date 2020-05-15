@@ -29,9 +29,7 @@ mix deps.get
 sudo -u postgres ./scripts/reset_database.sh
 mix ecto.create
 mix ecto.migrate
+mix run priv/repo/seeds.exs
 
 # project deployment
 ./scripts/deploy.sh
-# https://elixirforum.com/t/whats-the-best-way-to-serve-restricted-ports-e-g-80-443-with-phoenix/2841
-sudo setcap 'cap_net_bind_service=+ep' /usr/lib/erlang/erts-10.7.1/bin/beam.smp
-sudo setcap 'cap_net_bind_service=+ep' _build/prod/rel/hn_comments_game/erts*/bin/beam.smp

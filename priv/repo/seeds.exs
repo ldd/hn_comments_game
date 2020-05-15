@@ -11,9 +11,17 @@
 # and so on) as they will fail if something goes wrong.
 alias HnCommentsGame.Question
 alias HnCommentsGame.Repo
+alias HnCommentsGame.Scrapper
 
-Repo.insert!(%Question.Team{color: "red"})
-Repo.insert!(%Question.Team{color: "blue"})
-Repo.insert!(%Question.Team{color: "yellow"})
 
-HnCommentsGame.Scrapper.update()
+Repo.transaction(fn ->
+  Repo.query("TRUNCATE hn_comments", [])
+  Repo.query("TRUNCATE hn_posts", [])
+  Repo.query("TRUNCATE teams", [])
+
+  Repo.insert!(%Question.Team{color: "red"})
+  Repo.insert!(%Question.Team{color: "blue"})
+  Repo.insert!(%Question.Team{color: "green"})
+
+  Scrapper.update()
+end)
