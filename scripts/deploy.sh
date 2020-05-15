@@ -14,7 +14,7 @@ MIX_ENV=prod mix ecto.migrate
 MIX_ENV=prod mix run priv/repo/seeds.exs
 
 # Make a release
-PORT=4001 MIX_ENV=prod mix release --overwrite
+PORT=$PORT SSL_KEY_PATH=$SSL_KEY_PATH SSL_CHAIN_CERT_PATH=$SSL_CHAIN_CERT_PATH SSL_CERT_PATH=$SSL_CERT_PATH MIX_ENV=prod mix release --overwrite
 
 # https://elixirforum.com/t/whats-the-best-way-to-serve-restricted-ports-e-g-80-443-with-phoenix/2841
 sudo setcap 'cap_net_bind_service=+ep' /usr/lib/erlang/erts-10.7.1/bin/beam.smp

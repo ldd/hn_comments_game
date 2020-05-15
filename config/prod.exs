@@ -10,7 +10,16 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :hn_comments_game, HnCommentsGameWeb.Endpoint,
-  url: [host: System.get_env("HOST"), port: System.get_env("PORT")],
+  url: [host: System.get_env("HOST"), port: 443],
+  https: [
+    port: 443,
+    cipher_suite: :strong,
+    keyfile: "#{System.get_env("SSL_KEY_PATH")}",
+    cacertfile: "#{System.get_env("SSL_CHAIN_CERT_PATH")}",
+    certfile: "#{System.get_env("SSL_CERT_PATH")}",
+    transport_options: [socket_opts: [:inet6]]
+  ],
+  force_ssl: [hsts: true],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
