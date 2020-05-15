@@ -10,7 +10,7 @@ defmodule HnCommentsGameWeb.CommentLive.Index do
 
     {:ok,
      socket
-     |> assign(team: nil)
+     |> assign(team: nil, teams: Question.list_teams())
      |> assign(hn_comment: hn_comment, hn_posts: hn_posts)}
   end
 
@@ -40,10 +40,18 @@ defmodule HnCommentsGameWeb.CommentLive.Index do
 
     team = Map.update(team, :answered_questions, 0, &(&1 + 1))
 
+    teams =
+      if team.answered_questions >= 5 do
+        Question.update_score(team)
+        Question.list_teams()
+      else
+        socket.assigns.teams
+      end
+
     {:noreply,
      socket
      |> assign(hn_comment: hn_comment, hn_posts: hn_posts)
-     |> assign(team: team)}
+     |> assign(team: team, teams: teams)}
   end
 
   def handle_event("pick_team", %{"color" => color}, socket) do

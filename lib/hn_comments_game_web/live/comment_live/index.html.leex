@@ -4,7 +4,7 @@
 </header>
 
 <%= if is_nil(@team) or @team.answered_questions >= 5 do %>
-  <%= live_component @socket, HnCommentsGameWeb.CommentLive.TeamComponent, id: "team", team: @team %>
+  <%= live_component @socket, HnCommentsGameWeb.CommentLive.TeamComponent, id: "team", team: @team, teams: @teams %>
 <% else %>
   <div id="hn_comments">
     <div id="comment-<%= @hn_comment.id %>">
