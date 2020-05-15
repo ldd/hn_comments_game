@@ -1,40 +1,43 @@
-<header style="border-color: <%= if @team, do: @team.color, else: "grey" %>;">
-<h2>HN Matching Game</h2>
-<h4>Match HN comments to their parent post</h4>
+<header style="border-color: <%= if @team, do: @team.color, else: "lightgray" %>; border-width: thick">
+  <h2>HN Matching Game</h2>
+  <h4>Match HN comments to their parent post</h4>
 </header>
 
 <%= if is_nil(@team) or @team.answered_questions >= 5 do %>
-  <%= live_component @socket, HnCommentsGameWeb.CommentLive.TeamComponent,
-      id: "team", team: @team %>
-  <% else %>
+  <%= live_component @socket, HnCommentsGameWeb.CommentLive.TeamComponent, id: "team", team: @team %>
+<% else %>
   <div id="hn_comments">
     <div id="comment-<%= @hn_comment.id %>">
       <div style="background: #F6F6EF; padding: 1.5rem; margin-bottom: 1.2rem; overflow-x: auto">
         <%= raw(@hn_comment.text) %>
       </div>
       <div style="display:flex; flex-direction:column">
-      <%= for post <- @hn_posts do %>
-      <div>
-          <button
-            class="button button-outline"
-            style="white-space: unset; width: 100%; height: unset; text-transform: unset; text-align: start; font-size: 1.5rem"
-            type="button"
-            phx-click="made_guess"
-            phx-value-post_id="<%= post.id %>"
-          >
-            <%= post.title %>
-          </button>
-      </div>
-      <% end %>
+        <%= for post <- @hn_posts do %>
+          <div>
+              <button
+                class="button button-outline"
+                style="white-space: unset; width: 100%; height: unset; text-transform: unset; text-align: start; font-size: 1.5rem"
+                type="button"
+                phx-click="made_guess"
+                phx-value-post_id="<%= post.id %>"
+              >
+                <%= post.title %>
+              </button>
+          </div>
+        <% end %>
       </div>
     </div>
-  <%= if @team.answered_questions > 0 do %>
-  <p><%= @team.correct_questions %> / <%= @team.answered_questions %></p>
   </div>
+  <div style="display: flex; justify-content: space-between">
+  <%= if @team.answered_questions > 0 do %>
+    <p><%= @team.correct_questions %> / <%= @team.answered_questions %></p>
   <% end %>
   <%= if @team.time_taken > 0 do %>
-  <p><%= @team.time_taken
-  |> Timex.Duration.from_milliseconds
-  |> Timex.Format.Duration.Formatter.format(:humanized) %></p>
+    <p>
+      <%= @team.time_taken
+          |> Timex.Duration.from_milliseconds
+          |> Timex.Format.Duration.Formatter.format(:humanized) %>
+    </p>
   <% end %>
+  </div>
 <% end %>
