@@ -9,7 +9,8 @@
   margin: -1rem 0 2rem;
 }
 
-.phx-no-feedback.invalid-feedback, .phx-no-feedback .invalid-feedback {
+.phx-no-feedback.invalid-feedback,
+.phx-no-feedback .invalid-feedback {
   display: none;
 }
 
@@ -18,15 +19,15 @@
   transition: opacity 1s ease-out;
 }
 
-.phx-disconnected{
+.phx-disconnected {
   cursor: wait;
 }
-.phx-disconnected *{
+.phx-disconnected * {
   pointer-events: none;
 }
 
 .phx-modal {
-  opacity: 1!important;
+  opacity: 1 !important;
   position: fixed;
   z-index: 1;
   left: 0;
@@ -34,8 +35,8 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .phx-modal-content {
@@ -59,7 +60,6 @@
   text-decoration: none;
   cursor: pointer;
 }
-
 
 /* Alerts and form errors */
 .alert {
@@ -88,4 +88,74 @@
 }
 .alert:empty {
   display: none;
+}
+
+/* Project-specific classes */
+body {
+  width: calc(100vw - 2rem);
+  margin: 1rem;
+}
+
+body header {
+  background-color: unset;
+  border-width: thick;
+}
+.comment-text {
+  background: #f6f6ef;
+  padding: 1.5rem;
+  margin-bottom: 1.2rem;
+  overflow: auto;
+  max-height: calc(100vh - 450px);
+}
+
+.comment-posts {
+  display: flex;
+  flex-direction: column;
+
+  button {
+    white-space: unset;
+    width: 100%;
+    height: unset;
+    text-transform: unset;
+    text-align: start;
+    font-size: 1.5rem;
+  }
+}
+
+.question-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+#teams {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  .team-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1.5rem;
+
+    .team-color {
+      width: 64px;
+      height: 64px;
+      margin: 1.5rem;
+      filter: saturate(1.4) opacity(0.7);
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #212529;
+    color: white;
+  }
+  .comment-text {
+    background-color: #2b2b2b;
+    code {
+      background-color: #2b2b2b;
+    }
+  }
 }
