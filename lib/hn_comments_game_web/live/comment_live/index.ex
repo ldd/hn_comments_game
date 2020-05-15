@@ -5,6 +5,7 @@ defmodule HnCommentsGameWeb.CommentLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+    if connected?(socket), do: Question.subscribe()
     hn_comment = fetch_hn_comments()
     hn_posts = fetch_hn_posts(hn_comment.post_id)
 
@@ -21,6 +22,14 @@ defmodule HnCommentsGameWeb.CommentLive.Index do
     else
       {:noreply,
        socket |> assign(team: Map.update(socket.assigns.team, :time_taken, 0, &(&1 + @interval)))}
+    end
+  end
+
+  def handle_info(:team_stats_updated, socket) do
+    if not is_nil(socket.assigns.team) and socket.assigns.team.answered_questions >= 5 do
+      {:noreply, socket |> assign(teams: Question.list_teams())}
+    else
+      {:noreply, socket}
     end
   end
 

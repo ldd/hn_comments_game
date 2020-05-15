@@ -96,5 +96,16 @@ defmodule HnCommentsGame.Question do
     |> Repo.update_all(
       inc: [answered_questions: 5, correct_questions: correct, time_taken: time_taken]
     )
+    |> broadcast(:team_stats_updated)
   end
+
+  def subscribe do
+    Phoenix.PubSub.subscribe(HnCommentsGame.PubSub, "teams")
+  end
+
+  defp broadcast({1, [_team]}, event) do
+    Phoenix.PubSub.broadcast(HnCommentsGame.PubSub, "teams", event)
+  end
+
+  defp broadcast(error, _event), do: error
 end
